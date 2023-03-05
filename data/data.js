@@ -99,6 +99,7 @@ getData()
     console.log("Data fetched successfully");
   })
   .catch((err) => {
+    console.log("Data fetch unseccusfull");
     responseToSend.success = false;
     responseToSend.error = err.message;
   });
