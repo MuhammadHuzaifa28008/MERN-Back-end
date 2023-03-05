@@ -26,6 +26,8 @@ app.use(cors());
 app.use('/user', userRoutes);
 app.use('/free-apis', apiRoutes);
 
+// -- need following when we have to deploy fulll stack on single server
+
 // app.use(express.static('../client/build'));
 
 // app.get(`/`, (req, res) => {
@@ -46,5 +48,5 @@ try {
 } catch (error) { console.log('mongoose connection error : '+error.message); }
 
 
-try { app.listen(PORT,()=>console.log(`server runing at: http://localhost:5000`)); } 
+try { app.listen(PORT,()=>console.log(`server runing`)); } 
 catch (err) { console.log('server connection err : '+ err.message) }
