@@ -1,14 +1,40 @@
 import dotenv from "dotenv";
 import fetch from "node-fetch";
+import {readFile, writeFile} from 'fs/promises';
+import path from "path";
+import * as url from 'url';
+
 // import { createClient } from "pexels";
 
 dotenv.config({ path: "./config/.env" });
 
+const __dirname = url.fileURLToPath(new URL('./', import.meta.url));
 
+const jsonFile = path.join( __dirname, 'data.json');
 // const client = createClient(process.env.PexelsApiKey);
 const responseToSend = {};
 
-
+const writeToFile = async(data)=>{
+  try {
+    console.log(`jsonFile path: ${jsonFile}`)
+    await writeFile(jsonFile, JSON.stringify(data));
+    
+    console.log('writing to file went Good');
+  } catch (error) {
+    console.log('writing to file went Wrong');
+    console.log(error);
+  }
+}
+export const  readFromFile = async()=>{
+  try {
+    const data = await readFile(jsonFile, 'utf8');
+    // console.error(`read data from ${jsonFile}`);
+    return JSON.parse(data);
+  } catch (error) {
+    console.error(`Error reading data from ${jsonFile}: ${error}`);
+      return null;
+  }
+}
 
 const resCategories = new Set();
 let getCategories = (entrie) => {
@@ -97,6 +123,7 @@ async function getData() {
 getData()
   .then(() => {
     console.log("Data fetched successfully");
+    writeToFile(responseToSend);
   })
   .catch((err) => {
     console.log("Data fetch unseccusfull");
